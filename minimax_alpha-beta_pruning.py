@@ -22,14 +22,9 @@ class ALPHA_BETA_PRUNING(object):
 
                 # Alpha Beta Pruning  
                 if beta <= alpha:  
-<<<<<<< HEAD
                     break
 
             print(best)
-=======
-                    break 
-
->>>>>>> fe9b850428b4404051c5c04b7ae58bbfedfcddb1
             return best  
 
         else: 
@@ -44,23 +39,15 @@ class ALPHA_BETA_PRUNING(object):
                 # Alpha Beta Pruning  
                 if beta <= alpha:  
                     break 
-<<<<<<< HEAD
             
             print(best)
-=======
-
->>>>>>> fe9b850428b4404051c5c04b7ae58bbfedfcddb1
             return best  
 
 if __name__ == "__main__":  
     values = [3, 7, 9, -1, 8, -4, 5, 7, -9, 2, 3, 1, -7, 8, 1, 3, 2]
-<<<<<<< HEAD
     print('Input data:\n{}'.format(values))
     values.sort()
     print('Sorted data:\n{}'.format(values))
-=======
-    values.sort()
->>>>>>> fe9b850428b4404051c5c04b7ae58bbfedfcddb1
 
     alpha_beta_pruning = ALPHA_BETA_PRUNING()
     optimal_value = alpha_beta_pruning.minimax(0, 0, True, values, MIN, MAX)
