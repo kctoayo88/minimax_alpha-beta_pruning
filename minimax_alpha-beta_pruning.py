@@ -1,60 +1,51 @@
-import numpy as np
+MAX =  100
+MIN = -100
 
-class MINIMAX_ALPHA_BETA_PRUNING(object):
-    # Initialize the parameters
-    def __init__(self, nodes, num_layers):
-        self.nodes = nodes
-        self.num_layers = num_layers
+class ALPHA_BETA_PRUNING(object):
+    def __init__(self):
+        self.DEPTH = 3
 
-	# To check the number of nodes and layers
-        assert len(self.nodes) == 3 ** (self.num_layers - 1), \
-               'The value of num_layers or the size of nodes is invalid.'
+    # Returns optimal value for current player  
+    def minimax(self, depth, nodeIndex, maximizingPlayer, values, alpha, beta):  
+        # Terminating condition (leaf node is reached)
+        if depth == self.DEPTH:  
+            return values[nodeIndex]  
 
-    def slover(self):
-        result = []
-        result = self.nodes
+        if maximizingPlayer:  
+            best = MIN 
 
-        for n in range(self.num_layers):
-            temp = []	    
+            # Recur for left and right children  
+            for i in range(0, 2):
+                val = self.minimax(depth + 1, nodeIndex * 2 + i, False, values, alpha, beta)  
+                best = max(best, val)  
+                alpha = max(alpha, best)  
 
-            # Skip at first layer
-            if n != 0:
-		# Reshape the list
-                result = np.array(result)
-                result = np.reshape(result, (-1, 3))
-                result = result.tolist()
-            print('Layer {}:\n{}'.format(n, result))
+                # Alpha Beta Pruning  
+                if beta <= alpha:  
+                    break 
 
-	    # Check which layer is, and decide that is max or min
-            if n % 2 == 0:
-                for i in range(len(result)):
-                    temp.append(max(result[i]))
-            else:
-                for i in range(len(result)):
-                    temp.append(min(result[i]))
+            return best  
 
-            result = temp
+        else: 
+            best = MAX
 
-	# Print the node of top layer
-        print('Layer {}:\n{}'.format(self.num_layers, result))
+            # Recur for left and right children  
+            for i in range(0, 2):  
+                val = self.minimax(depth + 1, nodeIndex * 2 + i, True, values, alpha, beta)  
+                best = min(best, val)  
+                beta = min(beta, best)  
 
-if __name__ == '__main__':
-    # Define the nodes of problem
-    nodes = [[3, 7],
-            [9, -1, 8],
-            [-4],
-            [5, 7],
-            [-9],
-            [2, 3],
-            [1, -7],
-            [8],
-            [1, 3, 2]]
+                # Alpha Beta Pruning  
+                if beta <= alpha:  
+                    break 
 
-    # Define the number of layers
-    num_layers = 3
+            return best  
 
-    # Initialize the class
-    algorithm = MINIMAX_ALPHA_BETA_PRUNING(nodes, num_layers)
+if __name__ == "__main__":  
+    values = [3, 7, 9, -1, 8, -4, 5, 7, -9, 2, 3, 1, -7, 8, 1, 3, 2]
+    values.sort()
 
-    # Call the slover function
-    algorithm.slover()
+    alpha_beta_pruning = ALPHA_BETA_PRUNING()
+    optimal_value = alpha_beta_pruning.minimax(0, 0, True, values, MIN, MAX)
+
+    print("The optimal value is :", optimal_value)  
